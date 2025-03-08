@@ -47,7 +47,6 @@ export const useGetData = () => {
 			const responseDetail = await Promise.all(
 				response.data.results.map(async (pokemon: Pokemon) => {
 					const details = await axios.get(pokemon.url);
-					console.log(details.data);
 					return {
 						...pokemon,
 						name: pokemon.name,
