@@ -17,9 +17,15 @@ export type Pagination = {
 	pokemons?: Pokemon[];
 };
 
+export type Sound = {
+	latest: string;
+	legacy: string;
+};
+
 export type Details = {
-	sounds?: string[];
+	sounds?: Sound;
 	stats?: Stat[];
+	types?: { type: { name: string; url: string } }[];
 };
 
 export type Pokemon = {
@@ -41,6 +47,7 @@ export const useGetData = () => {
 			const responseDetail = await Promise.all(
 				response.data.results.map(async (pokemon: Pokemon) => {
 					const details = await axios.get(pokemon.url);
+					console.log(details.data);
 					return {
 						...pokemon,
 						name: pokemon.name,
@@ -48,6 +55,7 @@ export const useGetData = () => {
 						details: {
 							sounds: details.data.cries,
 							stats: details.data.stats,
+							types: details.data.types,
 						},
 					} as Pokemon;
 				})

@@ -3,8 +3,6 @@ import PokemonItem from '../components/PokemonItem.vue';
 import { usePokemonStore } from '../stores/pokemonStore';
 
 const store = usePokemonStore();
-
-console.log({ typeof: typeof store.selectedPokemons, list: store.selectedPokemons });
 </script>
 
 <template>
