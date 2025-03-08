@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { usePokemonStore } from '../stores/pokemonStore';
 
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import type { Pokemon } from '../composables/getData';
 
 const route = useRoute();
 const router = useRouter();
@@ -13,7 +13,7 @@ const back = () => {
 	router.push('/team');
 };
 const store = usePokemonStore();
-pokeSprite.value = store.selectedPokemons.find((p) => p.name === route.params.name);
+pokeSprite.value = store.selectedPokemons.find((p: Pokemon) => p.name === route.params.name);
 </script>
 
 <template>

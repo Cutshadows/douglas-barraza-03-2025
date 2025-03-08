@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { pokemonAPI } from '../utils/apiBase.ts';
-import { RouterLink } from 'vue-router';
-import { useGetData } from '../composables/getData';
+import { useGetData, type Pokemon } from '../composables/getData';
 import { usePokemonStore } from '../stores/pokemonStore';
 import PokemonItem from '../components/PokemonItem.vue';
 const store = usePokemonStore();
@@ -10,7 +8,8 @@ const store = usePokemonStore();
 const { data, error, loading, getData } = useGetData();
 getData(`${pokemonAPI}/pokemon?limit=25`);
 
-const isSelected = (pokemon) => store.selectedPokemons.some((p) => p.name === pokemon.name);
+const isSelected = (pokemon: Pokemon) =>
+	store.selectedPokemons.some((p) => p.name === pokemon.name);
 </script>
 
 <template>

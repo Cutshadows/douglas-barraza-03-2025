@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import { usePokemonStore } from '../stores/pokemonStore';
-import { Pokemon } from '../composables/getData';
+import type { Pokemon } from '../composables/getData';
 
 const store = usePokemonStore();
 const props = defineProps<{
@@ -12,10 +12,10 @@ const props = defineProps<{
 
 const isSelected = computed(() => {
 	if (!props.pokemon) return false;
-	return store.selectedPokemons.some((p) => p.name === props.pokemon.name);
+	return store.selectedPokemons.some((p: Pokemon) => p.name === props?.pokemon?.name);
 });
 const toggleSelect = () => {
-	if (!props.pokemon.name || !props.pokemon.image || props.origin !== 'list') return;
+	if (!props?.pokemon?.name || !props.pokemon.image || props.origin !== 'list') return;
 	if (isSelected.value) {
 		store.removePokemon(props.pokemon);
 	} else {
