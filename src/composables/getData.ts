@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { ref } from 'vue';
-import { pokemonAPI } from '../composables/utils';
 
 export type Stat = {
 	base_stat: number;
@@ -11,36 +10,58 @@ export type Stat = {
 	};
 };
 
+export type Pagination = {
+	count: number;
+	next: string;
+	previous: string;
+	pokemons?: Pokemon[];
+};
+
+export type Details = {
+	sounds?: string[];
+	stats?: Stat[];
+};
+
 export type Pokemon = {
 	name: string;
 	url: string;
 	image?: string;
-	sound?: string;
-	stats?: Stat[];
+	details?: Details;
 };
 
 export const useGetData = () => {
-	const data = ref([] as Pokemon[]);
+	const data = ref({} as Pagination);
 	const error = ref(null);
 	const loading = ref(true);
 
 	const getData = async (url: string) => {
 		loading.value = true;
-		const response = await axios.get(`${pokemonAPI}${url}?limit=25&generation=1`);
 		try {
-			const res = await Promise.all(
+			const response = await axios.get(`${url}`);
+			const responseDetail = await Promise.all(
 				response.data.results.map(async (pokemon: Pokemon) => {
 					const details = await axios.get(pokemon.url);
 					return {
 						...pokemon,
 						name: pokemon.name,
 						image: details.data.sprites.front_default,
-						sound: details.data.cries.legacy,
-						stats: details.data.stats,
+						details: {
+							sounds: details.data.cries,
+							stats: details.data.stats,
+						},
 					} as Pokemon;
 				})
 			);
-			data.value = res;
+			const mergedResponseData = {
+				...data.value,
+				...({
+					count: response.data.count,
+					next: response.data.next,
+					previous: response.data.previous,
+				} as Pagination),
+				pokemons: responseDetail,
+			};
+			data.value = mergedResponseData;
 		} catch (e) {
 			error.value = 'Something went wrong';
 		} finally {
