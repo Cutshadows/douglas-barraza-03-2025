@@ -26,30 +26,43 @@ const playSound = () => {
 <template>
 	<div class="flex flex-col items-center p-6">
 		<button @click="back()">⬅ Back to Team</button>
-		<!-- <router-link to="/team" class="text-blue-500 underline">⬅ Back to Team</router-link> -->
 		<div
 			v-if="pokeSprite"
-			class="bg-white text-black p-6 rounded-lg shadow-lg mt-4 text-center"
+			class="bg-white w-3/4 text-black p-6 rounded-lg shadow-lg mt-4 text-center"
 		>
 			<img :src="pokeSprite.image" :alt="pokeSprite.name" class="w-40 h-40 mx-auto" />
 			<h1 class="text-3xl font-bold capitalize mt-2">{{ pokeSprite.name }}</h1>
-			<div class="flex flex-row justify-center items-center mt-4">
-				<h2 class="text-sm font-semibold">
+			<div class="justify-center items-center mt-4">
+				<span class="text-xl font-extrabold">
 					{{
 						pokeSprite?.details?.types && pokeSprite.details.types.length > 1
 							? 'Types'
 							: 'Type'
 					}}
-				</h2>
-				<ul class="ml-2">
+				</span>
+				<ul class="ml-2" v-if="pokeSprite?.details?.types">
 					<li
 						v-for="type in pokeSprite?.details?.types"
 						:key="type.type.url"
-						class="capitalize text-md font-semibold"
+						class="capitalize text-md font-semibold bg-gray-200 p-2 rounded-lg mt-2"
 					>
 						{{ type.type.name }}
 					</li>
 				</ul>
+			</div>
+			<div class="mt-4">
+				<h2 class="text-xl font-semibold mt-4">Stats:</h2>
+				<div v-for="(stat, index) in pokeSprite.details?.stats" :key="index" class="mt-2">
+					<p class="capitalize font-semibold">
+						{{ stat.stat.name }}: {{ stat.base_stat }}
+					</p>
+					<div class="w-full bg-gray-300 rounded-full h-4">
+						<div
+							class="h-4 bg-blue-500 rounded-full transition-all"
+							:style="{ width: stat.base_stat + '%' }"
+						></div>
+					</div>
+				</div>
 			</div>
 			<div class="mt-6" v-for="(sound, index) of pokeSprite.details?.sounds" :key="index">
 				<audio ref="audio" :src="sound"></audio>
@@ -57,11 +70,9 @@ const playSound = () => {
 					@click="playSound"
 					class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
 				>
-					🔊 Play {{ index }}
+					🔊 Cries {{ index }}
 				</button>
 			</div>
 		</div>
-
-		<p v-else class="text-red-500 mt-4">Loading Pokémon details...</p>
 	</div>
 </template>

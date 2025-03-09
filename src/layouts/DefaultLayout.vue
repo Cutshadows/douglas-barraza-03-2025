@@ -5,8 +5,8 @@
 		<header class="p-4 bg-blue-600 h-[8%] w-full text-white">
 			<div class="wrapper">
 				<nav class="bg-white p-2 rounded">
-					<RouterLink to="/">Home</RouterLink>
-					<RouterLink to="/team">Team</RouterLink>
+					<RouterLink exact-active-class="active" class="item" to="/">Home</RouterLink>
+					<RouterLink active-class="active" class="item" to="/team">Team</RouterLink>
 				</nav>
 			</div>
 		</header>
@@ -24,6 +24,28 @@
 </template>
 
 <style>
+.wrapper {
+	display: flex;
+	gap: 0px;
+	justify-content: space-evenly;
+	align-items: stretch;
+	align-content: center;
+	flex-wrap: wrap;
+}
+
+.item {
+	width: 20px;
+	margin-right: 20px;
+	margin-left: 20px;
+	align-self: center;
+	font-size: 1.2em;
+}
+
+.active {
+	font-size: larger;
+	border-radius: 2px;
+	font-weight: bold;
+}
 footer {
 	border-top: 1px solid #ccc;
 	color: #666;
