@@ -37,7 +37,7 @@ export type Pokemon = {
 
 export const useGetData = () => {
 	const data = ref({} as Pagination);
-	const error = ref(null);
+	const error = ref<string | null>(null);
 	const loading = ref(true);
 
 	const getData = async (url: string) => {
