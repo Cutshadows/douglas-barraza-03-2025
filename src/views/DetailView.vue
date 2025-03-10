@@ -5,7 +5,7 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import type { Pokemon } from '../composables/getData';
 
-const audio = ref(null);
+const audio = ref<HTMLAudioElement | null>(null);
 const route = useRoute();
 const router = useRouter();
 const pokeSprite = ref({} as Pokemon);
@@ -14,7 +14,8 @@ const back = () => {
 	router.push('/team');
 };
 const store = usePokemonStore();
-pokeSprite.value = store.selectedPokemons.find((p: Pokemon) => p.name === route.params.name);
+pokeSprite.value =
+	store.selectedPokemons.find((p: Pokemon) => p.name === route.params.name) || ({} as Pokemon);
 
 const playSound = () => {
 	if (audio.value) {

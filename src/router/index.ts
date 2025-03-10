@@ -2,7 +2,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 import MainView from '../views/MainView.vue';
-import DetailView from '../views/DetailView.vue';
 
 export const routes = [
 	{
